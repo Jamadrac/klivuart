@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../custom_textfield.dart';
-
 import '../services/auth_services.dart';
+import '../screens/home_screen.dart'; // Ensure you have this import for the HomeScreen
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -21,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       email: emailController.text,
       password: passwordController.text,
+      nextScreen: HomeScreen(),  // Navigation to HomeScreen after login
     );
   }
 

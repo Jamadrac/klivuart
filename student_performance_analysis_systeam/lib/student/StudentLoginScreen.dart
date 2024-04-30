@@ -1,51 +1,75 @@
-import './studentActivity.dart';
-import 'package:flutter/material.dart';
 
-class StudentLoginScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import '../custom_textfield.dart';
+
+import '../services/auth_services.dart';
+import '../screens/home_screen.dart'; // Ensure you have this import for the HomeScreen
+
+class StudentLoginScreen extends StatefulWidget {
+  const StudentLoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StudentLoginScreen> createState() => _StudentLoginScreenState();
+}
+
+class _StudentLoginScreenState extends State<StudentLoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void loginUser() {
+    authService.signInUser(
+      context: context,
+      email: emailController.text,
+      password: passwordController.text,
+      nextScreen: HomeScreen(),  // Navigation to HomeScreen after login
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Student Login'),
-        backgroundColor: Colors.purple,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(
-                labelText: 'Username',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.person),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            " student Login",
+            style: TextStyle(fontSize: 30),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomTextField(
+              controller: emailController,
+              hintText: 'Enter your email',
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomTextField(
+              controller: passwordController,
+              hintText: 'Enter your password',
+            ),
+          ),
+          const SizedBox(height: 40),
+          ElevatedButton(
+            onPressed: loginUser,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.blue),
+              textStyle: MaterialStateProperty.all(
+                const TextStyle(color: Colors.white),
+              ),
+              minimumSize: MaterialStateProperty.all(
+                Size(MediaQuery.of(context).size.width / 2.5, 50),
               ),
             ),
-            SizedBox(height: 20),
-            TextFormField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.lock),
-              ),
+            child: const Text(
+              "Login",
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            SizedBox(height: 30), 
-            ElevatedButton(
-              onPressed: () {
-                // Handle login logic here
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => studentActivity()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.purple,
-                minimumSize: Size.fromHeight(50), // makes it easier to tap
-              ),
-              child: Text('Login'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
