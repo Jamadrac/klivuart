@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
               minimumSize: MaterialStateProperty.all(
                 Size(MediaQuery.of(context).size.width / 2.5, 50),
               ),
-            ),
+            ), 
             child: const Text(
               "Sign Out",
               style: TextStyle(color: Colors.white, fontSize: 16),
