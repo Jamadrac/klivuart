@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../models/user.dart';
+import '../models/user.dart'; // Ensure this path is correct
 
 class UserProvider extends ChangeNotifier {
   User _user = User(
@@ -9,12 +8,18 @@ class UserProvider extends ChangeNotifier {
     email: '',
     token: '',
     password: '',
+    userType: '',
+    age: 0,
+    bloodType: '',
+    userClass: '',
+    department: '',
+    sex: '',
   );
 
   User get user => _user;
 
-  void setUser(String user) {
-    _user = User.fromJson(user);
+  void setUser(String userJson) {
+    _user = User.fromJson(userJson);
     notifyListeners();
   }
 

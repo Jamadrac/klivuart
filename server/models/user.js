@@ -23,6 +23,25 @@ const userSchema = mongoose.Schema({
     required: true,
     type: String,
   },
+  userType: {
+    type: String,
+  },
+  age: {
+    type: Number,
+  },
+  bloodType: {
+    type: String,
+  },
+  class: {
+    type: String,
+  },
+  department: {
+    type: String,
+  },
+  sex: {
+    type: String,
+    enum: ["male", "female", "other"],
+  },
 });
 
 const User = mongoose.model("User", userSchema);

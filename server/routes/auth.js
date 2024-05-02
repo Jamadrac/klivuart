@@ -77,4 +77,57 @@ authRouter.get("/", auth, async (req, res) => {
   res.json({ ...user._doc, token: req.token });
 });
 
+// Update User Details
+authRouter.put("/api/updateUser/:id", auth, async (req, res) => {
+  const {
+    name,
+    email,
+    userType,
+    age,
+    bloodType,
+    class: userClass,
+    department,
+    sex,
+  } = req.body;
+  try {
+    // Ensure that the email is not already used by another user
+    const existingUser = await User.findOne({
+      email,
+      _id: { $ne: req.params.id },
+    });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          msg: "Another user with the same email already exists!",
+        });
+    }
+
+    // Find user by id and update their details
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        name,
+        email,
+        userType,
+        age,
+        bloodType,
+        class: userClass,
+        department,
+        sex,
+      },
+      { new: true, runValidators: true } // Return the updated document and run validators
+    );
+
+    if (!user) {
+      return res.status(404).json({ success: false, msg: "User not found" });
+    }
+
+    res.json({ success: true, msg: "User updated successfully!", user });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
 module.exports = authRouter;

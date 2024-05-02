@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import './Admin/AdminLoginScreen.dart';
 import './faculty/FacultyLoginScreen.dart';
 import './student/StudentLoginScreen.dart';
+import './screens/signup_screen.dart';  // Ensure you have this file in your project
 
 class Entry_door extends StatelessWidget {
   @override
@@ -21,6 +21,8 @@ class Entry_door extends StatelessWidget {
               RoleButton(role: 'ADMIN'),
               RoleButton(role: 'FACULTY'),
               RoleButton(role: 'STUDENT'),
+              SizedBox(height: 20), // Adds space between buttons
+              SignupButton(), // Button for navigating to the signup screen
             ],
           ),
         ),
@@ -65,6 +67,29 @@ class RoleButton extends StatelessWidget {
           role,
           style: TextStyle(fontSize: 20),
         ),
+      ),
+    );
+  }
+}
+
+class SignupButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.blue,
+        onPrimary: Colors.white,
+        elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+      ),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SignupScreen()));
+      },
+      child: Text(
+        'SIGN UP',
+        style: TextStyle(fontSize: 20),
       ),
     );
   }
