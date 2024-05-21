@@ -24,7 +24,7 @@ class FacultyActivity extends StatelessWidget {
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.grey,
+                backgroundColor: Colors.grey,
               ),
               child: Text('ADD TIME TABLE'),
               onPressed: () {
@@ -33,19 +33,19 @@ class FacultyActivity extends StatelessWidget {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.grey,
+                backgroundColor: Colors.grey,
               ),
               child: Text('RECORD ATTENDANCE'),
               onPressed: () {
-                // Navigate to another Attendance 
-                  Navigator.of(context).push(
+                // Navigate to another Attendance
+                Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => attendanceRecord()),
                 );
               },
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.grey,
+                backgroundColor: Colors.grey,
               ),
               child: Text('SEND NOTIFICATIONS'),
               onPressed: () {
@@ -54,7 +54,7 @@ class FacultyActivity extends StatelessWidget {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.grey,
+                backgroundColor: Colors.grey,
               ),
               child: Text('VIEW DOUBTS'),
               onPressed: () {

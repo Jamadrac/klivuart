@@ -40,7 +40,7 @@ class FacultyLoginScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.purple,
+                backgroundColor: Colors.purple,
                 minimumSize: Size.fromHeight(50),
               ),
               child: Text('Login'),

@@ -46,7 +46,7 @@ class AdminLoginScreen extends StatelessWidget {
                 },
                 child: Text('LOGIN'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.purple,
+                  backgroundColor: Colors.purple,
                 ),
               ),
             ],
