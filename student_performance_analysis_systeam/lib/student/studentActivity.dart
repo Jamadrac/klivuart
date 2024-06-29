@@ -19,7 +19,7 @@ class studentActivity extends StatelessWidget {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.grey,
+              backgroundColor: Colors.grey,
             ),
             child: Text('view TIME TABLE'),
             onPressed: () {
@@ -28,7 +28,7 @@ class studentActivity extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.grey,
+              backgroundColor: Colors.grey,
             ),
             child: Text('view NOTIFICATIONS'),
             onPressed: () {
@@ -37,7 +37,7 @@ class studentActivity extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.grey,
+              backgroundColor: Colors.grey,
             ),
             child: Text('send DOUBTS'),
             onPressed: () {

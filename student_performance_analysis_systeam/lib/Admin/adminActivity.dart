@@ -19,7 +19,7 @@ class AdminActivity extends StatelessWidget {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Colors.grey,
+              backgroundColor: Colors.grey,
             ),
             child: Text('ADD FACULTY'),
             onPressed: () {

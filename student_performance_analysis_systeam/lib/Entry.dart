@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import './Admin/AdminLoginScreen.dart';
 import './faculty/FacultyLoginScreen.dart';
 import './student/StudentLoginScreen.dart';
-import './screens/signup_screen.dart';  // Ensure you have this file in your project
+import './screens/signup_screen.dart'; // Ensure you have this file in your project
 
 class Entry_door extends StatelessWidget {
   @override
@@ -42,8 +42,8 @@ class RoleButton extends StatelessWidget {
       margin: EdgeInsets.all(10),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: Colors.white,
-          onPrimary: Colors.black,
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
           shadowColor: Colors.black,
           elevation: 5,
           shape: RoundedRectangleBorder(
@@ -53,13 +53,20 @@ class RoleButton extends StatelessWidget {
         onPressed: () {
           switch (role) {
             case 'ADMIN':
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AdminLoginScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AdminLoginScreen()));
               break;
             case 'FACULTY':
-              Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyLoginScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FacultyLoginScreen()));
               break;
             case 'STUDENT':
-              Navigator.push(context, MaterialPageRoute(builder: (context) => StudentLoginScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => StudentLoginScreen()));
               break;
           }
         },
@@ -77,15 +84,16 @@ class SignupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: Colors.blue,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,
         elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
       ),
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SignupScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignupScreen()));
       },
       child: Text(
         'SIGN UP',
