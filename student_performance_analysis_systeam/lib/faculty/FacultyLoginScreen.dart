@@ -3,11 +3,13 @@ import './faculActivity.dart';
 import 'package:flutter/material.dart';
 
 class FacultyLoginScreen extends StatelessWidget {
+  const FacultyLoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Faculty Login'),
+        title: const Text('Faculty Login'),
         backgroundColor: Colors.purple,
       ),
       body: Padding(
@@ -16,22 +18,22 @@ class FacultyLoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Username',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.person),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Password',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.lock),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
                 // Handle login logic here
@@ -41,9 +43,9 @@ class FacultyLoginScreen extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
-                minimumSize: Size.fromHeight(50),
+                minimumSize: const Size.fromHeight(50),
               ),
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
           ],
         ),
