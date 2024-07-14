@@ -108,6 +108,12 @@ class Addmin{
   }
 
   class Faculty {
+
+     // apis for 
+    // 1 add: timetable  string 
+    // 2 post: student results (subjects and makes )
+    // post addttendance( student id, status {pressent or absent, teacher id STUDENT ID)  }
+     
     // 1. Add Timetable
     static async addTimetable(req, res) {
       try {
@@ -179,26 +185,60 @@ class Addmin{
 
 
 
+  class Student {
+    // 1. View Academic Marks
+    //  apis for
+    //  1 student view accademic marks/collect by class id 
+    // 2 view timetable/collect by class id 
+    // 
+    static async viewAcademicMarks(req, res) {
+      try {
+        const { classId } = req.params;
   
+        const school = await School.findOne({ classAssignment: classId });
+        if (!school) {
+          return res.status(404).json({ msg: "Class not found" });
+        }
+  
+        res.json({ examResult: school.examResult });
+      } catch (e) {
+        res.status(500).json({ error: e.message });
+      }
+    }
+  
+    // 2. View Timetable
+    static async viewTimetable(req, res) {
+      try {
+        const { classId } = req.params;
+  
+        const school = await School.findOne({ classAssignment: classId });
+        if (!school) {
+          return res.status(404).json({ msg: "Class not found" });
+        }
+  
+        res.json({ timetable: school.timetable });
+      } catch (e) {
+        res.status(500).json({ error: e.message });
+      }
+    }
+  }
+  
+  schoolRouter.get("/api/viewAcademicMarks/:classId", Student.viewAcademicMarks);
+  schoolRouter.get("/api/viewTimetable/:classId", Student.viewTimetable);
+  
+  schoolRouter.post("/api/addFaculty", Admin.addFaculty);
+  schoolRouter.post("/api/addStudent", Admin.addStudent);
+  schoolRouter.get("/api/getAllStudents", Admin.getAllStudents);
+  schoolRouter.get("/api/viewAllTimetables", Admin.viewAllTimetables);
+  schoolRouter.delete("/api/deleteUserById/:id", Admin.deleteUserById);
+  
+
+  schoolRouter.post("/api/addTimetable", Faculty.addTimetable);
+  schoolRouter.post("/api/addStudentResults", Faculty.addStudentResults);
+  schoolRouter.post("/api/addAttendance", Faculty.addAttendance);
 
   export default schoolRouter;
 
 
 
-
-class Faculty{ 
-    // apis for 
-    // 1 add: timetable  string 
-    // 2 post: student results (subjects and makes )
-    // post addttendance( student id, status {pressent or absent, teacher id STUDENT ID)  }
-     
-}
-
-class student {
-    //  apis for
-    //  1 student view accademic marks/collect by class id 
-    // 2 view timetable/collect by class id 
-    // 
-
-}
 
