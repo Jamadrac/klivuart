@@ -107,16 +107,80 @@ class Addmin{
     }
   }
 
+  class Faculty {
+    // 1. Add Timetable
+    static async addTimetable(req, res) {
+      try {
+        const { timetable } = req.body;
+  
+        let school = await School.findOne();
+        if (!school) {
+          school = new School({ name: "Default School" });
+        }
+        school.timetable = timetable;
+        await school.save();
+  
+        res.json(school);
+      } catch (e) {
+        res.status(500).json({ error: e.message });
+      }
+    }
+  
+    // 2. Add Student Results
+    static async addStudentResults(req, res) {
+      try {
+        const { examResult } = req.body;
+  
+        let school = await School.findOne();
+        if (!school) {
+          school = new School({ name: "Default School" });
+        }
+        school.examResult = examResult;
+        await school.save();
+  
+        res.json(school);
+      } catch (e) {
+        res.status(500).json({ error: e.message });
+      }
+    }
+  
+    // 3. Add Attendance
+    static async addAttendance(req, res) {
+      try {
+        const { studentId, status, teacherId } = req.body;
+  
+        let school = await School.findOne();
+        if (!school) {
+          school = new School({ name: "Default School" });
+        }
+        school.attendance.push({ studentId, status, teacherId });
+        await school.save();
+  
+        res.json(school);
+      } catch (e) {
+        res.status(500).json({ error: e.message });
+      }
+    }
+  }
+  
 
 
-  
-  
+
   schoolRouter.post("/api/addFaculty", Admin.addFaculty);
   schoolRouter.post("/api/addStudent", Admin.addStudent);
   schoolRouter.get("/api/getAllStudents", Admin.getAllStudents);
   schoolRouter.get("/api/viewAllTimetables", Admin.viewAllTimetables);
   schoolRouter.delete("/api/deleteUserById/:id", Admin.deleteUserById);
   
+
+  schoolRouter.post("/api/addTimetable", Faculty.addTimetable);
+  schoolRouter.post("/api/addStudentResults", Faculty.addStudentResults);
+  schoolRouter.post("/api/addAttendance", Faculty.addAttendance);
+
+
+
+  
+
   export default schoolRouter;
 
 
