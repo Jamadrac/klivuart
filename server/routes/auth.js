@@ -1,24 +1,23 @@
-// server/routes/auth.js
-import { Router } from "express";
-import { hash, compare } from "bcryptjs";
-import User, { findOne, findById, findByIdAndUpdate } from "../models/user";
-const authRouter = Router();
-import { sign, verify } from "jsonwebtoken";
-import auth from "../middleware/auth";
+const express = require("express");
+const bcryptjs = require("bcryptjs");
+const User = require("../models/user");
+const authRouter = express.Router();
+const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth");
 
 // Sign Up
 authRouter.post("/api/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const existingUser = await findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
         .status(400)
         .json({ msg: "User with same email already exists!" });
     }
 
-    const hashedPassword = await hash(password, 8);
+    const hashedPassword = await bcryptjs.hash(password, 8);
 
     let user = new User({
       email,
@@ -38,19 +37,19 @@ authRouter.post("/api/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
         .json({ msg: "User with this email does not exist!" });
     }
 
-    const isMatch = await compare(password, user.password);
+    const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ msg: "Incorrect password." });
     }
 
-    const token = sign({ id: user._id }, "passwordKey");
+    const token = jwt.sign({ id: user._id }, "passwordKey");
     res.json({ token, ...user._doc });
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -61,10 +60,10 @@ authRouter.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
     if (!token) return res.json(false);
-    const verified = verify(token, "passwordKey");
+    const verified = jwt.verify(token, "passwordKey");
     if (!verified) return res.json(false);
 
-    const user = await findById(verified.id);
+    const user = await User.findById(verified.id);
     if (!user) return res.json(false);
     res.json(true);
   } catch (e) {
@@ -74,7 +73,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 
 // get user data
 authRouter.get("/", auth, async (req, res) => {
-  const user = await findById(req.user);
+  const user = await User.findById(req.user);
   res.json({ ...user._doc, token: req.token });
 });
 
@@ -92,7 +91,7 @@ authRouter.put("/api/updateUser/:id", auth, async (req, res) => {
   } = req.body;
   try {
     // Ensure that the email is not already used by another user
-    const existingUser = await findOne({
+    const existingUser = await User.findOne({
       email,
       _id: { $ne: req.params.id },
     });
@@ -106,7 +105,7 @@ authRouter.put("/api/updateUser/:id", auth, async (req, res) => {
     }
 
     // Find user by id and update their details
-    const user = await findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.params.id,
       {
         name,
@@ -131,4 +130,4 @@ authRouter.put("/api/updateUser/:id", auth, async (req, res) => {
   }
 });
 
-export default authRouter;
+module.exports = authRouter;

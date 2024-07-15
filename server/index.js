@@ -1,12 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
+const schoolRouter = require("./routes/school");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 const app = express();
 
 app.use(express.json());
 app.use(authRouter);
+app.use(schoolRouter)
 
 const DB =
   "mongodb+srv://rivaan:test123@cluster0.lcq2qaw.mongodb.net/?retryWrites=true&w=majority";

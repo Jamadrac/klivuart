@@ -1,5 +1,5 @@
 // server/models/school.js
-import mongoose from "mongoose";
+const mongoose = require ("mongoose");
 
 const schoolSchema = mongoose.Schema({
   name: {
@@ -42,4 +42,4 @@ const schoolSchema = mongoose.Schema({
 });
 
 const School = mongoose.model("School", schoolSchema);
-export default School;
+module.exports = School;

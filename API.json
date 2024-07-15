@@ -1,0 +1,122 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "School Management API",
+    "requests": [
+      {
+        "name": "Add Faculty",
+        "method": "POST",
+        "url": "http://localhost:5000/api/addFaculty",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"password123\"\n}"
+        },
+        "testScripts": []
+      },
+      {
+        "name": "Add Student",
+        "method": "POST",
+        "url": "http://localhost:5000/api/addStudent",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.doe@example.com\",\n  \"password\": \"password123\"\n}"
+        },
+        "testScripts": []
+      },
+      {
+        "name": "Get All Students",
+        "method": "GET",
+        "url": "http://localhost:5000/api/getAllStudents",
+        "headers": [],
+        "testScripts": []
+      },
+      {
+        "name": "View All Timetables",
+        "method": "GET",
+        "url": "http://localhost:5000/api/viewAllTimetables",
+        "headers": [],
+        "testScripts": []
+      },
+      {
+        "name": "Delete User by ID",
+        "method": "DELETE",
+        "url": "http://localhost:5000/api/deleteUserById/:id",
+        "headers": [],
+        "testScripts": []
+      },
+      {
+        "name": "Add Timetable",
+        "method": "POST",
+        "url": "http://localhost:5000/api/addTimetable",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": "{\n  \"timetable\": \"URL_OR_BASE64_STRING_OF_TIMETABLE_IMAGE\"\n}"
+        },
+        "testScripts": []
+      },
+      {
+        "name": "Add Student Results",
+        "method": "POST",
+        "url": "http://localhost:5000/api/addStudentResults",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": "{\n  \"examResult\": \"URL_OR_BASE64_STRING_OF_EXAM_RESULT_IMAGE\"\n}"
+        },
+        "testScripts": []
+      },
+      {
+        "name": "Add Attendance",
+        "method": "POST",
+        "url": "http://localhost:5000/api/addAttendance",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": "{\n  \"studentId\": \"STUDENT_ID\",\n  \"status\": \"present\",\n  \"teacherId\": \"TEACHER_ID\"\n}"
+        },
+        "testScripts": []
+      },
+      {
+        "name": "View Academic Marks",
+        "method": "GET",
+        "url": "http://localhost:5000/api/viewAcademicMarks/:classId",
+        "headers": [],
+        "testScripts": []
+      },
+      {
+        "name": "View Timetable",
+        "method": "GET",
+        "url": "http://localhost:5000/api/viewTimetable/:classId",
+        "headers": [],
+        "testScripts": []
+      }
+    ]
+  }
+  

@@ -2,12 +2,17 @@
 
 
 // server/routes/school.js
-import express from "express";
-import User from "../models/user";
-import School from "../models/school";
-import { hash } from "bcryptjs"; // Import hash function
+const express = require("express");
+const User = require("../models/user");
+const School = require ("../models/school");
+const { hash } = require ("bcryptjs"); 
+
 
 const schoolRouter = express.Router();
+
+   
+
+
 
 
 class Addmin{
@@ -107,6 +112,8 @@ class Addmin{
     }
   }
 
+
+
   class Faculty {
 
      // apis for 
@@ -172,17 +179,7 @@ class Addmin{
 
 
 
-  schoolRouter.post("/api/addFaculty", Admin.addFaculty);
-  schoolRouter.post("/api/addStudent", Admin.addStudent);
-  schoolRouter.get("/api/getAllStudents", Admin.getAllStudents);
-  schoolRouter.get("/api/viewAllTimetables", Admin.viewAllTimetables);
-  schoolRouter.delete("/api/deleteUserById/:id", Admin.deleteUserById);
-  
-
-  schoolRouter.post("/api/addTimetable", Faculty.addTimetable);
-  schoolRouter.post("/api/addStudentResults", Faculty.addStudentResults);
-  schoolRouter.post("/api/addAttendance", Faculty.addAttendance);
-
+ 
 
 
   class Student {
@@ -222,22 +219,32 @@ class Addmin{
       }
     }
   }
+
+  schoolRouter.post("/api/addFaculty", Addmin.addFaculty);
+  schoolRouter.post("/api/addStudent", Addmin.addStudent);
+  schoolRouter.get("/api/getAllStudents", Addmin.getAllStudents);
+  schoolRouter.get("/api/viewAllTimetables", Addmin.viewAllTimetables);
+  schoolRouter.delete("/api/deleteUserById/:id", Addmin.deleteUserById);
+  
+  
+  
+  
+  
+  schoolRouter.post("/api/addTimetable", Faculty.addTimetable);
+  schoolRouter.post("/api/addStudentResults", Faculty.addStudentResults);
+  schoolRouter.post("/api/addAttendance", Faculty.addAttendance);
+  
+  
   
   schoolRouter.get("/api/viewAcademicMarks/:classId", Student.viewAcademicMarks);
   schoolRouter.get("/api/viewTimetable/:classId", Student.viewTimetable);
   
-  schoolRouter.post("/api/addFaculty", Admin.addFaculty);
-  schoolRouter.post("/api/addStudent", Admin.addStudent);
-  schoolRouter.get("/api/getAllStudents", Admin.getAllStudents);
-  schoolRouter.get("/api/viewAllTimetables", Admin.viewAllTimetables);
-  schoolRouter.delete("/api/deleteUserById/:id", Admin.deleteUserById);
+  
   
 
-  schoolRouter.post("/api/addTimetable", Faculty.addTimetable);
-  schoolRouter.post("/api/addStudentResults", Faculty.addStudentResults);
-  schoolRouter.post("/api/addAttendance", Faculty.addAttendance);
 
-  export default schoolRouter;
+
+  module.exports = schoolRouter;
 
 
 
