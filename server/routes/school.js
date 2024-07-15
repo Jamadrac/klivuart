@@ -28,7 +28,7 @@ class Addmin{
     // 1. Add Faculty
     static async addFaculty(req, res) {
       try {
-        const { name, email, password } = req.body;
+        const { name, lastName, email, password } = req.body;
   
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -41,6 +41,7 @@ class Addmin{
           email,
           password: hashedPassword,
           name,
+          lastName,
           userType: "staff",
         });
         user = await user.save();
@@ -53,7 +54,7 @@ class Addmin{
     // 2. Add Student
     static async addStudent(req, res) {
       try {
-        const { name, email, password } = req.body;
+        const { name, lastName, email, password } = req.body;
   
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -64,6 +65,7 @@ class Addmin{
   
         let user = new User({
           email,
+          lastName,
           password: hashedPassword,
           name,
           userType: "student",
