@@ -1,212 +1,106 @@
-          API Documentation
-1. Admin Routes
-Add Faculty
-Endpoint
-POST http://localhost:5000/api/addFaculty
-Payload:
 
-json
-Copy code
+
+### Admin Endpoints
+
+#### 1. Add Faculty
+**Endpoint:** `POST /api/addFaculty`
+
+**JSON:**
+```json
 {
-  "name": "John Doe",
+  "name": "John",
+  "lastName": "Doe",
   "email": "john.doe@example.com",
   "password": "password123"
 }
-Response:
-A newly created faculty user
-json
-Copy code
+```
+
+#### 2. Add Student
+**Endpoint:** `POST /api/addStudent`
+
+**JSON:**
+```json
 {
-  "_id": "60d...2c",
-  "email": "john.doe@example.com",
-  "password": "$2a$08$...",
-  "name": "John Doe",
-  "userType": "staff",
-  "__v": 0
-}
-
-
-
-
-
-Add Student
-Endpoint
-POST http://localhost:5000/api/addStudent
-Payload:
-
-json
-Copy code
-{
-  "name": "Jane Doe",
-  "email": "jane.doe@example.com",
+  "name": "Jane",
+  "lastName": "Smith",
+  "email": "jane.smith@example.com",
   "password": "password123"
 }
-Response:
-A newly created student user
-json
-Copy code
-{
-  "_id": "60d...2c",
-  "email": "jane.doe@example.com",
-  "password": "$2a$08$...",
-  "name": "Jane Doe",
-  "userType": "student",
-  "__v": 0
-}
+```
 
+#### 3. Get All Students
+**Endpoint:** `GET /api/getAllStudents`
 
-Get All Students
-Endpoint
-GET http://localhost:5000/api/getAllStudents
-Response:
-An array of student users
-json
-Copy code
-[
-  {
-    "_id": "60d...2c",
-    "email": "jane.doe@example.com",
-    "password": "$2a$08$...",
-    "name": "Jane Doe",
-    "userType": "student",
-    "__v": 0
-  },
-  {
-    "_id": "60d...3d",
-    "email": "john.doe@example.com",
-    "password": "$2a$08$...",
-    "name": "John Doe",
-    "userType": "student",
-    "__v": 0
-  }
-]
-View All Timetables
-Endpoint
-GET http://localhost:5000/api/viewAllTimetables
-Response:
-An array of timetables
-json
-Copy code
-[
-  {
-    "_id": "60d...4e",
-    "timetable": "URL_OR_BASE64_STRING_OF_TIMETABLE_IMAGE"
-  }
-]
-Delete User by ID
-Endpoint
-DELETE http://localhost:5000/api/deleteUserById/:id
-Parameters:
+(No JSON payload needed)
 
-id: User ID to be deleted
-Response:
-Confirmation of user deletion
-json
-Copy code
-{
-  "msg": "User deleted successfully"
-}
-2. Faculty Routes
-Add Timetable
-Endpoint
-POST http://localhost:5000/api/addTimetable
-Payload:
+#### 4. View All Timetables
+**Endpoint:** `GET /api/viewAllTimetables`
 
-json
-Copy code
-{
-  "timetable": "URL_OR_BASE64_STRING_OF_TIMETABLE_IMAGE"
-}
-Response:
-The updated school document with the new timetable
-json
-Copy code
-{
-  "_id": "60d...4e",
-  "name": "Default School",
-  "timetable": "URL_OR_BASE64_STRING_OF_TIMETABLE_IMAGE",
-  "__v": 0
-}
-Add Student Results
-Endpoint
-POST http://localhost:5000/api/addStudentResults
-Payload:
+(No JSON payload needed)
 
-json
-Copy code
-{
-  "examResult": "URL_OR_BASE64_STRING_OF_EXAM_RESULT_IMAGE"
-}
-Response:
-The updated school document with the new exam results
-json
-Copy code
-{
-  "_id": "60d...4e",
-  "name": "Default School",
-  "examResult": "URL_OR_BASE64_STRING_OF_EXAM_RESULT_IMAGE",
-  "__v": 0
-}
-Add Attendance
-Endpoint
-POST http://localhost:5000/api/addAttendance
-Payload:
+#### 5. Delete Student or Faculty by ID
+**Endpoint:** `DELETE /api/deleteUserById/:id`
 
-json
-Copy code
+(No JSON payload needed; replace `:id` with the actual user ID in the URL)
+
+### Faculty Endpoints
+
+#### 1. Add Timetable
+**Endpoint:** `POST /api/addTimetable`
+
+**JSON:**
+```json
 {
-  "studentId": "STUDENT_ID",
+  "timetable": "URL_or_base64_string_of_timetable_image"
+}
+```
+
+#### 2. Add Student Results
+**Endpoint:** `POST /api/addStudentResults`
+
+**JSON:**
+```json
+{
+  "examResult": "URL_or_base64_string_of_exam_result_image"
+}
+```
+
+#### 3. Add Attendance (attendance.dart)
+**Endpoint:** `POST /api/addAttendance`
+
+**JSON:**
+```json
+{
+  "studentId": "student_object_id",
   "status": "present",
-  "teacherId": "TEACHER_ID"
+  "teacherId": "teacher_object_id"
 }
-Response:
-The updated school document with the new attendance record
-json
-Copy code
-{
-  "_id": "60d...4e",
-  "name": "Default School",
-  "attendance": [
-    {
-      "studentId": "STUDENT_ID",
-      "status": "present",
-      "teacherId": "TEACHER_ID"
-    }
-  ],
-  "__v": 0
-}
-3. Student Routes
-View Academic Marks
-Endpoint
-GET http://localhost:5000/api/viewAcademicMarks/:classId
-Parameters:
+```
 
-classId: Class ID to filter marks by
-Response:
-An array of academic marks for the specified class
-json
-Copy code
-[
-  {
-    "subject": "Mathematics",
-    "marks": 85
-  },
-  {
-    "subject": "Science",
-    "marks": 90
-  }
-]
-View Timetable
-Endpoint
-GET http://localhost:5000/api/viewTimetable/:classId
-Parameters:
+### Student Endpoints
 
-classId: Class ID to filter timetable by
-Response:
-The timetable for the specified class
-json
-Copy code
-{
-  "classId": "CLASS_ID",
-  "timetable": "URL_OR_BASE64_STRING_OF_TIMETABLE_IMAGE"
-}
+#### 1. View Academic Marks (ViewAcademic.dart)
+**Endpoint:** `GET /api/viewAcademicMarks/:classId`
+
+(No JSON payload needed; replace `:classId` with the actual class ID in the URL)
+
+#### 2. View Timetable (ViewTimetable)
+**Endpoint:** `GET /api/viewTimetable/:classId`
+
+(No JSON payload needed; replace `:classId` with the actual class ID in the URL)
+
+### Example Requests in Postman
+
+**Add Faculty:**
+1. Set method to `POST`.
+2. Set URL to `http://localhost:5000/api/addFaculty`.
+3. Go to the `Body` tab.
+4. Select `raw` and choose `JSON` from the dropdown.
+5. Paste the JSON payload.
+
+**Get All Students:**
+1. Set method to `GET`.
+2. Set URL to `http://localhost:5000/api/getAllStudents`.
+3. Send the request (no body needed).
+
+.

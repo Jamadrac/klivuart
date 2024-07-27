@@ -8,7 +8,7 @@ const schoolSchema = mongoose.Schema({
     trim: true,
   },
   timetable: {
-    type: String, // Assuming timetable is a URL or base64 string of the image
+    type: String, // timetable is a URL or base64 string of the image
   },
   attendance: [
     {
