@@ -3,7 +3,6 @@ const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
 const authRouter = express.Router();
 const jwt = require("jsonwebtoken");
-const auth = require("../middleware/auth");
 
 // Sign Up
 authRouter.post("/api/signup", async (req, res) => {
@@ -32,7 +31,6 @@ authRouter.post("/api/signup", async (req, res) => {
 });
 
 // Sign In
-
 authRouter.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -72,13 +70,13 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 });
 
 // get user data
-authRouter.get("/", auth, async (req, res) => {
+authRouter.get("/", async (req, res) => {
   const user = await User.findById(req.user);
   res.json({ ...user._doc, token: req.token });
 });
 
 // Update User Details
-authRouter.put("/api/updateUser/:id", auth, async (req, res) => {
+authRouter.put("/api/updateUser/:id", async (req, res) => {
   const {
     name,
     email,
@@ -117,7 +115,7 @@ authRouter.put("/api/updateUser/:id", auth, async (req, res) => {
         department,
         sex,
       },
-      { new: true, runValidators: true } // Return the updated document and run validators
+      { new: true, runValidators: true } 
     );
 
     if (!user) {

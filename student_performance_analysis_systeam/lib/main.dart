@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import '../providers/user_provider.dart';
-import '../screens/home_screen.dart';
+// import '../screens/home_screen.dart';
 import './Entry.dart';
 import '../services/auth_services.dart';
 import 'package:provider/provider.dart';
-
 
 void main() {
   runApp(
@@ -36,12 +35,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Node Auth',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Provider.of<UserProvider>(context).user.token.isEmpty ? 
-       Entry_door() : const HomeScreen(),
-    );
+        title: 'Flutter Node Auth',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Entry_door()
+        // home: Provider.of<UserProvider>(context).user.token.isEmpty ?
+        //  Entry_door() : const HomeScreen(),
+        );
   }
 }

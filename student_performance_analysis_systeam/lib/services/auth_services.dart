@@ -11,7 +11,7 @@ import '../providers/user_provider.dart';
 
 class AuthService {
   //xxxxxxxxxxxxxxxxxxxxxxxx signUp  xxxxxxxxxxxxxxxxxxxxxxxxxxx
-  void signUpUser({ 
+  void signUpUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -33,7 +33,8 @@ class AuthService {
       );
 
       if (res.statusCode == 200) {
-        showSnackBar(context, 'Account created! Login with the same credentials!');
+        showSnackBar(
+            context, 'Account created! Login with the same credentials!');
       } else {
         throw Exception('Failed to sign up: ${res.body}');
       }
@@ -53,7 +54,7 @@ class AuthService {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       final navigator = Navigator.of(context);
       http.Response res = await http.post(
-        Uri.parse('${Constants.uri}/api/signin'),
+        Uri.parse('${Constants.uri}/api/login'),
         body: jsonEncode({
           'email': email,
           'password': password,
@@ -86,7 +87,7 @@ class AuthService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('x-auth-token', '');
     navigator.pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) =>  Entry_door()),
+      MaterialPageRoute(builder: (context) => Entry_door()),
       (route) => false,
     );
   }

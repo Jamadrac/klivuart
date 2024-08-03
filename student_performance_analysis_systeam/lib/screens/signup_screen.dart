@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../custom_textfield.dart';
-import '../screens/login_screen.dart';
+import 'login_screen.dart';
 import '../services/auth_services.dart';
 
 class SignupScreen extends StatefulWidget {
