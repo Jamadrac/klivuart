@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:student_performance_analysis_systeam/utils/constants.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -35,17 +37,18 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
 
   Future<void> _registerFaculty() async {
     final response = await http.post(
-      Uri.parse('YOUR_API_URL_HERE'), // Replace with your API URL
+      Uri.parse('${Constants.uri}/register/admin'), // Replace with your API URL
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
+      body: jsonEncode(<String, dynamic>{
         'name': name,
         'mobile': mobile,
         'email': email,
         'department': department,
         'username': username,
         'password': password,
+        // 'userType': 'admin', // Add userType field
       }),
     );
 
@@ -66,7 +69,7 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AddFacultyActivity'),
+        title: Text('Add Faculty'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

@@ -1,12 +1,14 @@
+// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:student_performance_analysis_systeam/student/studentActivity.dart';
 import '../custom_textfield.dart';
 
 import '../services/auth_services.dart';
-import '../screens/home_screen.dart'; // Ensure you have this import for the HomeScreen
+// import '../screens/home_screen.dart'; // Ensure you have this import for the HomeScreen
 
 class StudentLoginScreen extends StatefulWidget {
-  const StudentLoginScreen({Key? key}) : super(key: key);
+  const StudentLoginScreen({super.key});
 
   @override
   State<StudentLoginScreen> createState() => _StudentLoginScreenState();
@@ -22,7 +24,7 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
       context: context,
       email: emailController.text,
       password: passwordController.text,
-      nextScreen: HomeScreen(),  // Navigation to HomeScreen after login
+      nextScreen: studentActivity(), // Navigation to HomeScreen after login
     );
   }
 
@@ -56,11 +58,11 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
           ElevatedButton(
             onPressed: loginUser,
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.blue),
-              textStyle: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(Colors.blue),
+              textStyle: WidgetStateProperty.all(
                 const TextStyle(color: Colors.white),
               ),
-              minimumSize: MaterialStateProperty.all(
+              minimumSize: WidgetStateProperty.all(
                 Size(MediaQuery.of(context).size.width / 2.5, 50),
               ),
             ),

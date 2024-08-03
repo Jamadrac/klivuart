@@ -4,6 +4,41 @@ const User = require("../models/user");
 const authRouter = express.Router();
 const jwt = require("jsonwebtoken");
 
+
+
+
+
+authRouter.post('/register/admin', async (req, res) => {
+  const { name, mobile, email, department, username, password } = req.body;
+  try {
+    const newUser = new User({
+      name,
+      mobile,
+      email,
+      department,
+      username,
+      password,
+      userType: 'admin',
+    });
+    await newUser.save();
+    res.status(200).json({ message: 'User registered successfully!' });
+  } catch (error) {
+    res.status(400).json({ message: 'Failed to register user', error });
+  }
+});
+
+authRouter.get("/api/admins", async (req, res) => {
+  try {
+
+    const admins = await User.find({ userType: 'admin' });
+    
+    // Respond with the list of admin users
+    res.json(admins);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Sign Up
 authRouter.post("/api/signup", async (req, res) => {
   try {
@@ -71,9 +106,20 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 
 // get user data
 authRouter.get("/", async (req, res) => {
-  const user = await User.findById(req.user);
-  res.json({ ...user._doc, token: req.token });
+  try {
+    // Fetch user from database based on some user identifier, if available
+    const user = await User.findById(req.userId); // Assuming req.userId is set somewhere
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Respond with user data
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
+
 
 // Update User Details
 authRouter.put("/api/updateUser/:id", async (req, res) => {
