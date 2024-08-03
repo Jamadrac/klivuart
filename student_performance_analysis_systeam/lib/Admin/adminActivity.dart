@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-import 'package:student_performance_analysis_systeam/Admin/addFaculty.dart';
+import 'package:student_performance_analysis_systeam/Admin/addFaculty.dart'; // For decoding JSON response
+import 'package:student_performance_analysis_systeam/Admin/editFaculty.dart';
+import 'package:student_performance_analysis_systeam/utils/constants.dart'; // Import the EditFacultyActivity
 
 class AdminActivity extends StatelessWidget {
   @override
@@ -13,7 +16,7 @@ class AdminActivity extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.more_vert),
             onPressed: () {
-              // Navigate to another screen
+              // Navigate to another screen if needed
             },
           ),
         ],
@@ -26,14 +29,14 @@ class AdminActivity extends StatelessWidget {
             ),
             child: Text('ADD FACULTY'),
             onPressed: () {
-              // Navigate to another screen
+              // Navigate to add faculty screen
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => AddFacultyActivity()),
               );
             },
           ),
           Expanded(
-            child: FutureBuilder<List<String>>(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
               future: fetchFacultyList(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -46,10 +49,16 @@ class AdminActivity extends StatelessWidget {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
+                      final item = snapshot.data![index];
                       return ListTile(
-                        title: Text(snapshot.data![index]),
+                        title: Text(item['name']),
                         onTap: () {
-                          // OnClick action - navigate to another screen
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  EditFacultyActivity(id: item['id']),
+                            ),
+                          );
                         },
                       );
                     },
@@ -63,22 +72,21 @@ class AdminActivity extends StatelessWidget {
     );
   }
 
-  // Simulate an API call to fetch faculty list
-  Future<List<String>> fetchFacultyList() async {
-    // Simulate network delay
-    await Future.delayed(Duration(seconds: 2));
+  // Fetch the list of faculty from the API
+  Future<List<Map<String, dynamic>>> fetchFacultyList() async {
+    final response = await http.get(Uri.parse('${Constants.uri}/api/admins'));
 
-    // Return sample data
-    return [
-      'Prof. Lokesh B',
-      'Prof. Bhavana B',
-      // Add more faculty names here
-    ];
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      // Extract names and IDs
+      return data
+          .map((item) => {
+                'id': item['_id'],
+                'name': item['name'],
+              })
+          .toList();
+    } else {
+      throw Exception('Failed to load faculty');
+    }
   }
 }
-
-// void main() {
-//   runApp(MaterialApp(
-//     home: AdminActivity(),
-//   ));
-// }

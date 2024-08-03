@@ -55,12 +55,12 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
     if (response.statusCode == 200) {
       // If the server returns a 200 OK response
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Faculty registered successfully!')),
+        const SnackBar(content: Text('Faculty registered successfully!')),
       );
     } else {
       // If the server did not return a 200 OK response
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to register faculty')),
+        const SnackBar(content: Text('Failed to register faculty')),
       );
     }
   }
@@ -69,16 +69,16 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Faculty'),
+        title: const Text('Add Faculty'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
                 onChanged: (value) {
                   setState(() {
                     name = value;
@@ -86,7 +86,7 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Mobile'),
+                decoration: const InputDecoration(labelText: 'Mobile'),
                 keyboardType: TextInputType.phone,
                 onChanged: (value) {
                   setState(() {
@@ -95,7 +95,7 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
                   setState(() {
@@ -104,7 +104,7 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Department'),
+                decoration: const InputDecoration(labelText: 'Department'),
                 onChanged: (value) {
                   setState(() {
                     department = value;
@@ -112,7 +112,7 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'User name'),
+                decoration: const InputDecoration(labelText: 'User name'),
                 onChanged: (value) {
                   setState(() {
                     username = value;
@@ -120,7 +120,7 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 onChanged: (value) {
                   setState(() {
@@ -128,14 +128,14 @@ class _AddFacultyActivityState extends State<AddFacultyActivity> {
                   });
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _registerFaculty();
                   }
                 },
-                child: Text('ADD'),
+                child: const Text('ADD'),
               ),
             ],
           ),
