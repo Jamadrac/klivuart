@@ -34,10 +34,10 @@ const schoolSchema = mongoose.Schema({
     },
   ],
   classAssignment: {
-    type: String, // URL or base64 string of the photo
+    type: String,
   },
   examResult: {
-    type: String, // URL or base64 string of the photo
+    type: String,
   },
 });
 

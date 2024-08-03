@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_performance_analysis_systeam/faculty/addTimetable.dart';
 import './attendanceRecord.dart';
 
 class FacultyActivity extends StatelessWidget {
@@ -6,10 +7,10 @@ class FacultyActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FacultyHomeActivity'),
+        title: const Text('FacultyHomeActivity'),
         actions: [
           IconButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             onPressed: () {
               // Navigate to another screen
             },
@@ -26,16 +27,21 @@ class FacultyActivity extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
               ),
-              child: Text('ADD TIME TABLE'),
+              child: const Text('ADD TIME TABLE'),
               onPressed: () {
                 // Navigate to another screen
+                // Navigate to another screen
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => const AddTimeTableActivity()),
+                );
               },
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
               ),
-              child: Text('RECORD ATTENDANCE'),
+              child: const Text('RECORD ATTENDANCE'),
               onPressed: () {
                 // Navigate to another Attendance
                 Navigator.of(context).push(
@@ -47,7 +53,7 @@ class FacultyActivity extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
               ),
-              child: Text('SEND NOTIFICATIONS'),
+              child: const Text('SEND NOTIFICATIONS'),
               onPressed: () {
                 // Navigate to another screen
               },
@@ -56,10 +62,17 @@ class FacultyActivity extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
               ),
-              child: Text('VIEW DOUBTS'),
+              child: const Text('VIEW DOUBTS'),
               onPressed: () {
                 // Navigate to another screen
               },
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
+              ),
+              child: const Text('add timetable'),
+              onPressed: () {},
             ),
           ],
         ),

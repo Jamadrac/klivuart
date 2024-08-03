@@ -1,58 +1,82 @@
 import 'package:flutter/material.dart';
 import './adminActivity.dart';
 
-class AdminLoginScreen extends StatelessWidget {
+import '../custom_textfield.dart';
+import '../services/auth_services.dart';
+
+class AdminLoginScreen extends StatefulWidget {
+  const AdminLoginScreen({super.key});
+
+  @override
+  State<AdminLoginScreen> createState() => _StudentLoginScreenState();
+}
+
+class _StudentLoginScreenState extends State<AdminLoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void loginUser() {
+    authService.signInUser(
+      context: context,
+      email: emailController.text,
+      password: passwordController.text,
+      nextScreen: AdminActivity(), // Navigation to HomeScreen after login
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Admin Login'),
-        backgroundColor: Colors.purple,
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/admin_icon.png'),
-            fit: BoxFit.cover,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            " Admin Login",
+            style: TextStyle(fontSize: 30),
           ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset('assets/images/admin_icon.png'),
-              SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-                obscureText: true,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Handle login logic
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => AdminActivity()),
-                  );
-                },
-                child: Text('LOGIN'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
-                ),
-              ),
-            ],
+          SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomTextField(
+              controller: emailController,
+              hintText: 'Enter your email',
+            ),
           ),
-        ),
+          const SizedBox(height: 20),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: CustomTextField(
+              controller: passwordController,
+              hintText: 'Enter your password',
+            ),
+          ),
+          const SizedBox(height: 40),
+          ElevatedButton(
+            onPressed: loginUser,
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colors.blue),
+              textStyle: WidgetStateProperty.all(
+                const TextStyle(color: Colors.white),
+              ),
+              minimumSize: WidgetStateProperty.all(
+                Size(MediaQuery.of(context).size.width / 2.5, 50),
+              ),
+            ),
+            child: const Text(
+              "Login",
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
+
+
+ // Handle login logic
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(builder: (context) => AdminActivity()),
+                  // );
