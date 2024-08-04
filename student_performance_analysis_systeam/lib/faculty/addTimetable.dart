@@ -1,10 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:student_performance_analysis_systeam/utils/constants.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,7 +27,6 @@ class AddTimeTableActivity extends StatefulWidget {
   const AddTimeTableActivity({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _AddTimeTableActivityState createState() => _AddTimeTableActivityState();
 }
 
@@ -41,28 +40,29 @@ class _AddTimeTableActivityState extends State<AddTimeTableActivity> {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      }
-    });
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(
+            pickedFile.path); // Create a File object from the pickedFile path
+      });
+    }
   }
 
   Future<void> _submitTimetable() async {
     if (_formKey.currentState!.validate()) {
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse('YOUR_API_URL_HERE'), // Replace with your API URL
-      );
-      request.fields['subject'] = subject;
-      request.fields['description'] = description;
-      if (_image != null) {
-        request.files.add(
-          await http.MultipartFile.fromPath('image', _image!.path),
-        );
-      }
+      final imageBytes =
+          _image != null ? base64Encode(await _image!.readAsBytes()) : '';
 
-      var response = await request.send();
+      var response = await http.post(
+        Uri.parse(
+            '${Constants.uri}/api/addTimetable'), // Replace with your API URL
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'subject': subject,
+          'description': description,
+          'image': imageBytes,
+        }),
+      );
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -80,7 +80,7 @@ class _AddTimeTableActivityState extends State<AddTimeTableActivity> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AddTimeTable'),
+        title: const Text('Add Timetable'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -90,6 +90,12 @@ class _AddTimeTableActivityState extends State<AddTimeTableActivity> {
             children: <Widget>[
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Subject'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a subject';
+                  }
+                  return null;
+                },
                 onChanged: (value) {
                   setState(() {
                     subject = value;
@@ -98,6 +104,12 @@ class _AddTimeTableActivityState extends State<AddTimeTableActivity> {
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Description'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a description';
+                  }
+                  return null;
+                },
                 onChanged: (value) {
                   setState(() {
                     description = value;
@@ -116,6 +128,7 @@ class _AddTimeTableActivityState extends State<AddTimeTableActivity> {
                         _image!,
                         width: 90,
                         height: 90,
+                        fit: BoxFit.cover, // Ensure the image fits correctly
                       ),
                     )
                   : Container(),

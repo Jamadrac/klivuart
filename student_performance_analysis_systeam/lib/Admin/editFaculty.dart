@@ -44,12 +44,13 @@ class EditFacultyActivity extends StatelessWidget {
 
   Future<Map<String, dynamic>> fetchFacultyDetails(String id) async {
     final response =
-        await http.get(Uri.parse('${Constants.uri}/api/admins/$id'));
+        await http.get(Uri.parse('${Constants.uri}/api/updateUser/$id'));
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to load faculty details');
+      var res;
+      throw Exception('Failed to load faculty details: ${res.body}');
     }
   }
 }

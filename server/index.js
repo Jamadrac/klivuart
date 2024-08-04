@@ -2,16 +2,18 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
 const schoolRouter = require("./routes/school");
+const timetableRoutes = require('./routes/timetable.js');
+const os = require('os');
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
 app.use(express.json());
 app.use(authRouter);
-app.use(schoolRouter)
+app.use(schoolRouter);
+app.use(timetableRoutes);
 
-const DB =
-  "mongodb+srv://rivaan:test123@cluster0.lcq2qaw.mongodb.net/?retryWrites=true&w=majority";
+const DB = "mongodb+srv://rivaan:test123@cluster0.lcq2qaw.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose
   .connect(DB)
@@ -23,5 +25,19 @@ mongoose
   });
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`connected at port ${PORT}`);
+  const networkInterfaces = os.networkInterfaces();
+  let ipAddress = 'localhost';
+  
+  for (const interfaceName in networkInterfaces) {
+    const interfaceInfo = networkInterfaces[interfaceName];
+    for (const address of interfaceInfo) {
+      if (address.family === 'IPv4' && !address.internal) {
+        ipAddress = address.address;
+        break;
+      }
+    }
+  }
+
+  const url = `http://${ipAddress}:${PORT}`;
+  console.log(`Server is running at ${url}`);
 });
