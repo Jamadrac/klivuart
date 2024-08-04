@@ -1,5 +1,5 @@
 // server/models/school.js
-const mongoose = require ("mongoose");
+const mongoose = require("mongoose");
 
 const schoolSchema = mongoose.Schema({
   name: {
@@ -8,7 +8,7 @@ const schoolSchema = mongoose.Schema({
     trim: true,
   },
   timetable: {
-    type: String, // timetable is a URL or base64 string of the image
+    type: String, // Store JSON string that includes subject, description, and base64 image
   },
   attendance: [
     {
@@ -43,30 +43,3 @@ const schoolSchema = mongoose.Schema({
 
 const School = mongoose.model("School", schoolSchema);
 module.exports = School;
-
-
-
-
-
-const timetableSchema = new mongoose.Schema({
-  subject: {
-    type: String,
-    required: true, // Ensure the subject field is required
-  },
-  description: {
-    type: String,
-    required: true, // Ensure the description field is required
-  },
-  image: {
-    type: String, // Store image as a Base64 encoded string
-    default: '',  // Default to an empty string if no image is provided
-  },
-}, {
-  timestamps: true, // Add createdAt and updatedAt timestamps
-});
-
-// Create the model using the schema
-const Timetable = mongoose.model('Timetable', timetableSchema);
-
-module.exports = Timetable;
-

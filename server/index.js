@@ -2,16 +2,17 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
 const schoolRouter = require("./routes/school");
+const morgan = require("morgan")
 const timetableRoutes = require('./routes/timetable.js');
 const os = require('os');
 
 const PORT = process.env.PORT || 8000;
 const app = express();
-
+app.use(morgan('tiny'))
 app.use(express.json());
 app.use(authRouter);
 app.use(schoolRouter);
-app.use(timetableRoutes);
+app.use('/api/timetable', timetableRoutes); 
 
 const DB = "mongodb+srv://rivaan:test123@cluster0.lcq2qaw.mongodb.net/?retryWrites=true&w=majority";
 

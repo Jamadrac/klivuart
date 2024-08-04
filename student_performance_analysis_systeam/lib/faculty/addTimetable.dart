@@ -6,23 +6,6 @@ import 'dart:io';
 
 import 'package:student_performance_analysis_systeam/utils/constants.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Add Timetable',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
-      home: const AddTimeTableActivity(),
-    );
-  }
-}
-
 class AddTimeTableActivity extends StatefulWidget {
   const AddTimeTableActivity({super.key});
 
@@ -54,8 +37,7 @@ class _AddTimeTableActivityState extends State<AddTimeTableActivity> {
           _image != null ? base64Encode(await _image!.readAsBytes()) : '';
 
       var response = await http.post(
-        Uri.parse(
-            '${Constants.uri}/api/addTimetable'), // Replace with your API URL
+        Uri.parse('${Constants.uri}/api/addTimetable'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'subject': subject,
