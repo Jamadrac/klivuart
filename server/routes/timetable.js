@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Timetable = require('../models/Timetable.js');
+const Timetable = require('../models/school');
 
 // Add timetable
 router.post('/addTimetable', async (req, res) => {
