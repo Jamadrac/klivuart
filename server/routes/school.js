@@ -145,23 +145,8 @@ class Faculty {
     }
   }
 
-  // 3. Add Attendance
-  static async addAttendance(req, res) {
-    const { studentId, status, teacherEmail } = req.body;
-    try {
-      const attendance = new Attendance({
-        studentId,
-        status,
-        teacherEmail
-      });
-      await attendance.save();
-      res.status(201).json({ message: 'Attendance recorded successfully!' });
-    } catch (error) {
-      res.status(400).json({ message: 'Failed to record attendance', error });
-    }
-  }
-
-  // 4. Delete Timetable
+  // / 4. Delete Timetable
+ 
   static async deleteTimetable(req, res) {
     try {
       const { id } = req.params;
@@ -176,7 +161,61 @@ class Faculty {
       res.status(500).json({ error: e.message });
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+// server/routes/school.js
+  static async addAttendance(req, res) {
+    const { presentIds, absentIds, teacherEmail } = req.body;
+    try {
+      // Validate the presence of required fields
+      if (!presentIds || !absentIds || !teacherEmail) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Create and save attendance records for present students
+      for (const studentId of presentIds) {
+        await new Attendance({
+          studentId,
+          status: 'present',
+          teacherEmail,
+        }).save();
+      }
+
+      // Create and save attendance records for absent students
+      for (const studentId of absentIds) {
+        await new Attendance({
+          studentId,
+          status: 'absent',
+          teacherEmail,
+        }).save();
+      }
+
+      res.status(201).json({ message: "Attendance recorded successfully!" });
+    } catch (error) {
+      console.error(`Error recording attendance: ${error.message}`);
+      res.status(500).json({ message: "Failed to record attendance", error: error.message });
+    }
+  }
 }
+
+
+
+
+
+
+  
+
+
+
 
 class Student {
   // 1. View Academic Marks

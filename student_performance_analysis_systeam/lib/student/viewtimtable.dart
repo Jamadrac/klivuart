@@ -1,4 +1,3 @@
-// lib/screens/view_timetable_screen.dart
 import 'package:flutter/material.dart';
 import '../services/timetable_service.dart';
 
@@ -39,36 +38,59 @@ class _ViewTimetableScreenState extends State<ViewTimetableScreen> {
               itemCount: timetables.length,
               itemBuilder: (context, index) {
                 final timetable = timetables[index];
-                return Container(
+                return Card(
                   margin: const EdgeInsets.symmetric(
                       vertical: 8.0, horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (timetable.image.isNotEmpty)
-                        Container(
-                          width: double.infinity,
-                          height: 200.0, // Adjust the height as needed
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image:
-                                  MemoryImage(base64ToImage(timetable.image)),
-                              fit: BoxFit.cover,
+                  elevation: 5.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Subject:',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          timetable.subject,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          'Description:',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          timetable.description,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const SizedBox(height: 16.0), // Spacing before image
+                        if (timetable.image.isNotEmpty)
+                          SizedBox(
+                            height: 200.0, // Adjust the height as needed
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.memory(
+                                base64ToImage(timetable.image),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
                             ),
                           ),
-                        ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        timetable.subject,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 4.0),
-                      Text(
-                        "Description",
-                        semanticsLabel: timetable.description,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },

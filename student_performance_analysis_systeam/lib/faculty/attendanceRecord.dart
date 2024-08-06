@@ -25,6 +25,8 @@ class AttendanceScreen extends StatefulWidget {
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
   List<Attendee> attendees = [];
+  bool _isLoading = false;
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -33,6 +35,10 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   }
 
   Future<void> _fetchAttendees() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     try {
       final response =
           await http.get(Uri.parse('${Constants.uri}/api/getAllStudents'));
@@ -42,34 +48,58 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           attendees = data.map((json) => Attendee.fromJson(json)).toList();
         });
       } else {
-        // Handle errors
         print('Failed to load attendees');
       }
     } catch (e) {
       print('Error fetching attendees: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
-  Future<void> _postAttendance(String studentId, bool isPresent) async {
+  Future<void> _postAttendance() async {
+    setState(() {
+      _isSubmitting = true; // Set submitting to true
+    });
+
     try {
+      final presentIds = attendees
+          .where((attendee) => attendee.isPresent)
+          .map((attendee) => attendee.id)
+          .toList();
+      final absentIds = attendees
+          .where((attendee) => !attendee.isPresent)
+          .map((attendee) => attendee.id)
+          .toList();
       final response = await http.post(
         Uri.parse('${Constants.uri}/api/attendance'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
-          'studentId': studentId,
-          'status': isPresent ? 'present' : 'absent',
-          'teacherEmail':
-              'teacher@example.com', // Replace with dynamic email if needed
+          'presentIds': presentIds,
+          'absentIds': absentIds,
+          'teacherEmail': 'johndoe@example.com',
         }),
       );
+
       if (response.statusCode == 201) {
-        print('Attendance recorded successfully!');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Attendance recorded successfully!')),
+        );
       } else {
-        // Handle errors
-        print('Failed to record attendance');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to record attendance')),
+        );
       }
     } catch (e) {
-      print('Error posting attendance: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error posting attendance: $e')),
+      );
+    } finally {
+      setState(() {
+        _isSubmitting = false; // Set submitting to false
+      });
     }
   }
 
@@ -79,41 +109,62 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       appBar: AppBar(
         title: Text("Attendance"),
       ),
-      body: attendees.isEmpty
-          ? Center(child: Text('No attendees found'))
-          : ListView.builder(
-              itemCount: attendees.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(attendees[index].avatarUrl),
-                      onBackgroundImageError: (_, __) => Icon(Icons.person),
-                    ),
-                    title: Text(attendees[index].name),
-                    trailing: Container(
-                      width: 160, // Adjust the width to fit your layout
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _attendanceButton(context, index, true),
-                          _attendanceButton(context, index, false),
-                        ],
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : attendees.isEmpty
+              ? Center(child: Text('No attendees found'))
+              : ListView.builder(
+                  itemCount: attendees.length,
+                  itemBuilder: (context, index) {
+                    final attendee = attendees[index];
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: ListTile(
+                        leading: _buildAvatar(attendee),
+                        title: Text(attendee.name),
+                        subtitle: Text('${attendee.email}'),
+                        trailing: Container(
+                          width: 160, // Adjust the width to fit your layout
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              _attendanceButton(context, index, true),
+                              _attendanceButton(context, index, false),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add functionality to submit the attendance data
-        },
-        child: Icon(Icons.send),
+        onPressed:
+            _isSubmitting ? null : _postAttendance, // Disable when submitting
+        child: _isSubmitting
+            ? CircularProgressIndicator(color: Colors.white)
+            : Icon(Icons.send),
         tooltip: 'Submit Attendance',
       ),
+    );
+  }
+
+  Widget _buildAvatar(Attendee attendee) {
+    return CircleAvatar(
+      backgroundColor: Colors.grey[200],
+      child: attendee.avatarUrl != null && attendee.avatarUrl!.isNotEmpty
+          ? ClipOval(
+              child: Image.network(
+                attendee.avatarUrl!,
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(Icons.person, size: 40);
+                },
+              ),
+            )
+          : Icon(Icons.person, size: 40),
     );
   }
 
@@ -128,12 +179,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       ),
       onPressed: () {
         setState(() {
-          for (var attendee in attendees) {
-            attendee.isPresent = false; // Reset all to false
-          }
           attendees[index].isPresent = isPresent; // Set selected one to true
         });
-        _postAttendance(attendees[index].id, isPresent);
       },
       child: Text(isPresent ? "Present" : "Absent"),
     );
@@ -143,13 +190,27 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 class Attendee {
   final String id;
   final String name;
-  final String avatarUrl;
+  final String? avatarUrl; // Nullable
+  final String lastName;
+  final String email;
+  final int? age;
+  final String? bloodType;
+  final String? studentClass;
+  final String? department;
+  final String? sex;
   bool isPresent;
 
   Attendee({
     required this.id,
     required this.name,
-    required this.avatarUrl,
+    this.avatarUrl,
+    required this.lastName,
+    required this.email,
+    this.age,
+    this.bloodType,
+    this.studentClass,
+    this.department,
+    this.sex,
     this.isPresent = false,
   });
 
@@ -158,6 +219,13 @@ class Attendee {
       id: json['_id'],
       name: json['name'],
       avatarUrl: json['avatarUrl'],
+      lastName: json['lastName'] ?? '',
+      email: json['email'] ?? '',
+      age: json['age'],
+      bloodType: json['bloodType'],
+      studentClass: json['class'],
+      department: json['department'],
+      sex: json['sex'],
     );
   }
 }
