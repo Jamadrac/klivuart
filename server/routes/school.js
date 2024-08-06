@@ -2,10 +2,11 @@
 const express = require("express");
 const User = require("../models/user");
 const School = require("../models/school");
+const Attendance = require('../models/attendance.js');
+const Timetable = require("../models/timetable"); 
 const { hash } = require("bcryptjs");
 
 const schoolRouter = express.Router();
-
 
 class Admin {
   // 1. Add Faculty
@@ -63,7 +64,7 @@ class Admin {
   // 3. Get All Students
   static async getAllStudents(req, res) {
     try {
-      const students = await User.find({ userType: "student" });
+      const students = await User.find({ userType: 'student' });
       res.json(students);
     } catch (e) {
       res.status(500).json({ error: e.message });
@@ -73,17 +74,10 @@ class Admin {
   // 4. View All Timetables
   static async viewAllTimetables(req, res) {
     try {
-      const schools = await School.find({}, 'timetable'); // Assuming timetable is a field in the School model
-
-      if (!schools.length) {
+      const timetables = await Timetable.find();
+      if (!timetables.length) {
         return res.status(404).json({ msg: "No timetables found" });
       }
-
-      // Flatten the timetable data
-      const timetables = schools.flatMap(school => school.timetable.map(entry => ({
-        id: school._id.toString(), // Ensure the ID is a string
-        ...entry // Spread timetable entry fields
-      })));
 
       res.json(timetables);
     } catch (e) {
@@ -107,22 +101,28 @@ class Admin {
     }
   }
 }
-
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 class Faculty {
   // 1. Add Timetable
   static async addTimetable(req, res) {
     try {
       const { subject, description, image } = req.body;
+      console.log(`Request Body: ${JSON.stringify(req.body)}`);
 
-      let school = await School.findOne();
-      if (!school) {
-        school = new School({ name: "Default School", timetable: [] });
-      }
-      school.timetable.push({ subject, description, image });
-      await school.save();
+      // Create a new timetable entry
+      const timetableEntry = new Timetable({
+        subject,
+        description,
+        image,
+      });
 
-      res.json(school);
+      // Save the new timetable entry to the database
+      await timetableEntry.save();
+
+      // Respond with a success message
+      res.json({ msg: "Timetable entry added successfully." });
     } catch (e) {
+      console.error(`Error: ${e.message}`);
       res.status(500).json({ error: e.message });
     }
   }
@@ -147,17 +147,31 @@ class Faculty {
 
   // 3. Add Attendance
   static async addAttendance(req, res) {
+    const { studentId, status, teacherEmail } = req.body;
     try {
-      const { studentId, status, teacherId } = req.body;
+      const attendance = new Attendance({
+        studentId,
+        status,
+        teacherEmail
+      });
+      await attendance.save();
+      res.status(201).json({ message: 'Attendance recorded successfully!' });
+    } catch (error) {
+      res.status(400).json({ message: 'Failed to record attendance', error });
+    }
+  }
 
-      let school = await School.findOne();
-      if (!school) {
-        school = new School({ name: "Default School" });
+  // 4. Delete Timetable
+  static async deleteTimetable(req, res) {
+    try {
+      const { id } = req.params;
+      const result = await Timetable.findByIdAndDelete(id);
+
+      if (!result) {
+        return res.status(404).json({ msg: "Timetable entry not found" });
       }
-      school.attendance.push({ studentId, status, teacherId });
-      await school.save();
 
-      res.json(school);
+      res.json({ msg: "Timetable entry deleted successfully" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
@@ -184,20 +198,20 @@ class Student {
   // 2. View Timetable
   static async viewTimetable(req, res) {
     try {
-      const { classId } = req.params;
+      const timetables = await Timetable.find(); // Retrieve all timetables
 
-      const school = await School.findOne({ classAssignment: classId });
-      if (!school) {
-        return res.status(404).json({ msg: "Class not found" });
+      if (!timetables.length) {
+        return res.status(404).json({ msg: "No timetables found" });
       }
 
-      res.json(school.timetable);
+      res.json(timetables);
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
   }
 }
 
+// Routes
 schoolRouter.post("/api/addFaculty", Admin.addFaculty);
 schoolRouter.post("/api/addStudent", Admin.addStudent);
 schoolRouter.get("/api/getAllStudents", Admin.getAllStudents);
@@ -206,9 +220,10 @@ schoolRouter.delete("/api/deleteUserById/:id", Admin.deleteUserById);
 
 schoolRouter.post("/api/addTimetable", Faculty.addTimetable);
 schoolRouter.post("/api/addStudentResults", Faculty.addStudentResults);
-schoolRouter.post("/api/addAttendance", Faculty.addAttendance);
+schoolRouter.post("/api/attendance", Faculty.addAttendance);
+
 
 schoolRouter.get("/api/viewAcademicMarks/:classId", Student.viewAcademicMarks);
-schoolRouter.get("/api/viewTimetable/:classId", Student.viewTimetable);
+schoolRouter.get("/api/viewTimetable", Student.viewTimetable);
 
 module.exports = schoolRouter;

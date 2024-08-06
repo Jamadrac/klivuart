@@ -45,7 +45,7 @@ class FacultyActivity extends StatelessWidget {
               onPressed: () {
                 // Navigate to another Attendance
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => attendanceRecord()),
+                  MaterialPageRoute(builder: (context) => AttendanceRecord()),
                 );
               },
             ),

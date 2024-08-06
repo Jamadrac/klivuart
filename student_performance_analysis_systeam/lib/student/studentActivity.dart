@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_performance_analysis_systeam/student/viewtimtable.dart';
 
 class studentActivity extends StatelessWidget {
   @override
@@ -23,7 +24,9 @@ class studentActivity extends StatelessWidget {
             ),
             child: Text('view TIME TABLE'),
             onPressed: () {
-              // Navigate to another screen
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ViewTimetableScreen()),
+              );
             },
           ),
           ElevatedButton(

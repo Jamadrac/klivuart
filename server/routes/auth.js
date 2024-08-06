@@ -7,6 +7,28 @@ const jwt = require("jsonwebtoken");
 
 
 
+authRouter.post("/api/bulkRegister", async (req, res) => {
+  const users = req.body; // Array of user objects
+  try {
+    // Hash passwords and prepare user objects for insertion
+    const hashedUsers = await Promise.all(users.map(async (user) => {
+      const hashedPassword = await bcryptjs.hash(user.password, 8);
+      return {
+        ...user,
+        password: hashedPassword, // Hash the password
+      };
+    }));
+
+    // Insert all users into the database
+    const result = await User.insertMany(hashedUsers);
+
+    res.status(201).json({ message: 'Users registered successfully!', result });
+  } catch (error) {
+    res.status(400).json({ message: 'Failed to register users', error });
+  }
+});
+
+
 
 authRouter.post('/register/admin', async (req, res) => {
   const { name, mobile, email, department, username, password } = req.body;

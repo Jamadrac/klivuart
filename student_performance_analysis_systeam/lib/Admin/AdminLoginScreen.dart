@@ -53,7 +53,13 @@ class _StudentLoginScreenState extends State<AdminLoginScreen> {
           ),
           const SizedBox(height: 40),
           ElevatedButton(
-            onPressed: loginUser,
+            // onPressed: loginUser,
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AdminActivity()),
+              );
+            },
+
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(Colors.blue),
               textStyle: WidgetStateProperty.all(
