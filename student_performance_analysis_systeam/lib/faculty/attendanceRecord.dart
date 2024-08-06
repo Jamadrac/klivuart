@@ -125,12 +125,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                         title: Text(attendee.name),
                         subtitle: Text('${attendee.email}'),
                         trailing: Container(
-                          width: 160, // Adjust the width to fit your layout
+                          width: MediaQuery.of(context).size.width *
+                              0.4, // Adjust width dynamically
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              _attendanceButton(context, index, true),
-                              _attendanceButton(context, index, false),
+                              Expanded(
+                                  child:
+                                      _attendanceButton(context, index, true)),
+                              Expanded(
+                                  child:
+                                      _attendanceButton(context, index, false)),
                             ],
                           ),
                         ),
