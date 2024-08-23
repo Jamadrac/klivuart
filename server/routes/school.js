@@ -127,6 +127,31 @@ class Faculty {
     }
   }
 
+
+ // 1. Add  /question_paper  missing model
+  static async addTimetable(req, res) {
+    try {
+      const { subject, description, image } = req.body;
+      console.log(`Request Body: ${JSON.stringify(req.body)}`);
+
+      // Create a new timetable entry
+      const timetableEntry = new Timetable({
+        subject,
+        description,
+        image,
+      });
+
+      // Save the new timetable entry to the database
+      await timetableEntry.save();
+
+      // Respond with a success message
+      res.json({ msg: "Timetable entry added successfully." });
+    } catch (e) {
+      console.error(`Error: ${e.message}`);
+      res.status(500).json({ error: e.message });
+    }
+  }
+
   // 2. Add Student Results
   static async addStudentResults(req, res) {
     try {

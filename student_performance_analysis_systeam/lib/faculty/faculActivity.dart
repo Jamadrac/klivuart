@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_performance_analysis_systeam/faculty/Add_Questionpaper.dart';
 import 'package:student_performance_analysis_systeam/faculty/addTimetable.dart';
 import './attendanceRecord.dart';
 
@@ -71,9 +72,14 @@ class FacultyActivity extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
               ),
-              child: const Text('add timetable'),
-              onPressed: () {},
+              child: const Text('ADD QUESTION PAPERS'),
+              onPressed: () {
+                 Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => Add_Questionpaper()),
+                );
+                  },
             ),
+
           ],
         ),
       ),
