@@ -1,9 +1,8 @@
-// server/routes/school.js
 const express = require("express");
 const User = require("../models/user");
 const School = require("../models/school");
 const Attendance = require('../models/attendance.js');
-const Timetable = require("../models/timetable"); 
+const Timetable = require("../models/timetable");
 const { hash } = require("bcryptjs");
 
 const schoolRouter = express.Router();
@@ -100,35 +99,63 @@ class Admin {
       res.status(500).json({ error: e.message });
     }
   }
-}
-// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-class Faculty {
-  // 1. Add Timetable
-  static async addTimetable(req, res) {
+
+  // 6. Get Faculty Details by ID
+  static async getFacultyById(req, res) {
     try {
-      const { subject, description, image } = req.body;
-      console.log(`Request Body: ${JSON.stringify(req.body)}`);
+      const { id } = req.params;
+      const user = await User.findById(id);
+      
+      if (!user || user.userType !== "staff") {
+        return res.status(404).json({ msg: "Faculty not found" });
+      }
 
-      // Create a new timetable entry
-      const timetableEntry = new Timetable({
-        subject,
-        description,
-        image,
-      });
-
-      // Save the new timetable entry to the database
-      await timetableEntry.save();
-
-      // Respond with a success message
-      res.json({ msg: "Timetable entry added successfully." });
+      res.json(user);
     } catch (e) {
-      console.error(`Error: ${e.message}`);
       res.status(500).json({ error: e.message });
     }
   }
 
+  // 7. Update Faculty Details by ID
+  static async updateFacultyById(req, res) {
+    try {
+      const { id } = req.params;
+      const { name, email } = req.body;
 
- // 1. Add  /question_paper  missing model
+      const user = await User.findById(id);
+      if (!user || user.userType !== "staff") {
+        return res.status(404).json({ msg: "Faculty not found" });
+      }
+
+      user.name = name;
+      user.email = email;
+      await user.save();
+
+      res.json(user);
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  }
+
+  // 8. Delete Faculty by ID
+  static async deleteFacultyById(req, res) {
+    try {
+      const { id } = req.params;
+      const user = await User.findByIdAndDelete(id);
+
+      if (!user || user.userType !== "staff") {
+        return res.status(404).json({ msg: "Faculty not found" });
+      }
+
+      res.json({ msg: "Faculty deleted successfully" });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  }
+}
+
+class Faculty {
+  // 1. Add Timetable
   static async addTimetable(req, res) {
     try {
       const { subject, description, image } = req.body;
@@ -170,8 +197,7 @@ class Faculty {
     }
   }
 
-  // / 4. Delete Timetable
- 
+  // 3. Delete Timetable
   static async deleteTimetable(req, res) {
     try {
       const { id } = req.params;
@@ -187,17 +213,7 @@ class Faculty {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-// server/routes/school.js
+  // 4. Add Attendance
   static async addAttendance(req, res) {
     const { presentIds, absentIds, teacherEmail } = req.body;
     try {
@@ -231,16 +247,6 @@ class Faculty {
     }
   }
 }
-
-
-
-
-
-
-  
-
-
-
 
 class Student {
   // 1. View Academic Marks
@@ -282,10 +288,13 @@ schoolRouter.get("/api/getAllStudents", Admin.getAllStudents);
 schoolRouter.get("/api/viewAllTimetables", Admin.viewAllTimetables);
 schoolRouter.delete("/api/deleteUserById/:id", Admin.deleteUserById);
 
+schoolRouter.get("/api/faculty/:id", Admin.getFacultyById);
+schoolRouter.put("/api/faculty/:id", Admin.updateFacultyById);
+schoolRouter.delete("/api/faculty/:id", Admin.deleteFacultyById);
+
 schoolRouter.post("/api/addTimetable", Faculty.addTimetable);
 schoolRouter.post("/api/addStudentResults", Faculty.addStudentResults);
 schoolRouter.post("/api/attendance", Faculty.addAttendance);
-
 
 schoolRouter.get("/api/viewAcademicMarks/:classId", Student.viewAcademicMarks);
 schoolRouter.get("/api/viewTimetable", Student.viewTimetable);

@@ -29,7 +29,7 @@ class AdminActivity extends StatelessWidget {
             ),
             child: Text('ADD FACULTY'),
             onPressed: () {
-              // Navigate to add faculty screen
+             
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => AddFacultyActivity()),
               );
