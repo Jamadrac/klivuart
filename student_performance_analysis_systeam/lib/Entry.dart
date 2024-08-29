@@ -14,11 +14,14 @@ class Entry_door extends StatelessWidget {
       title: 'School Management',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('School Management'),
-          backgroundColor: Colors.purple,
+          title: const Text('Student analysis and performance systeam'),
+          backgroundColor: const Color.fromARGB(255, 52, 64, 221),
         ),
         body: const Center(
           child: Column(
+          
+            
+
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               RoleButton(role: 'ADMIN'),
@@ -50,7 +53,7 @@ class RoleButton extends StatelessWidget {
           shadowColor: Colors.black,
           elevation: 5,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
+            // borderRadius: BorderRadius.circular(30),
           ),
         ),
         onPressed: () {

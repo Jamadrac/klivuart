@@ -8,7 +8,7 @@ class FacultyActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('FacultyHomeActivity'),
+        title: const Text('Faculty Activity'),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -22,7 +22,7 @@ class FacultyActivity extends StatelessWidget {
         // Wrap the Column in a Center widget
         child: Column(
           mainAxisAlignment: MainAxisAlignment
-              .spaceEvenly, // This will space the children evenly
+              .center, // This will space the children evenly
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(

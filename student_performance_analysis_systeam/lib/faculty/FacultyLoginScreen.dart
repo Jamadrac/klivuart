@@ -10,7 +10,7 @@ class FacultyLoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Faculty Login'),
-        backgroundColor: Colors.purple,
+        backgroundColor: const Color.fromARGB(255, 39, 41, 176),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -42,7 +42,7 @@ class FacultyLoginScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple,
+                backgroundColor: const Color.fromARGB(55, 39, 41, 176),
                 minimumSize: const Size.fromHeight(50),
               ),
               child: const Text('Login'),

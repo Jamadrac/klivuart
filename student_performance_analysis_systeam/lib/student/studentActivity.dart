@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:student_performance_analysis_systeam/student/sendDoubts.dart';
+import 'package:student_performance_analysis_systeam/student/viewQuestionpaper.dart';
 import 'package:student_performance_analysis_systeam/student/viewtimtable.dart';
 
 class studentActivity extends StatelessWidget {
@@ -11,7 +13,7 @@ class studentActivity extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.more_vert),
             onPressed: () {
-              // Navigate to another screen
+            //  avigate to another screen
             },
           ),
         ],
@@ -37,7 +39,9 @@ class studentActivity extends StatelessWidget {
               ),
               child: Text('View NOTIFICATIONS'),
               onPressed: () {
-                // Navigate to another screen
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder:(context)=> viewQuestionpaper()));
+               
               },
             ),
             ElevatedButton(
@@ -46,7 +50,10 @@ class studentActivity extends StatelessWidget {
               ),
               child: Text('Send DOUBTS'),
               onPressed: () {
-                // Navigate to another screen
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context)=> senDoubts())
+                );
+               
               },
             ),
           ],
