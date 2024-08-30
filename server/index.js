@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
 const schoolRouter = require("./routes/school");
 const morgan = require("morgan")
+const doubtRouter = require("./routes/doubts");
 
 const os = require('os');
 
@@ -12,6 +13,7 @@ app.use(morgan('tiny'))
 app.use(express.json());
 app.use(authRouter);
 app.use(schoolRouter);
+app.use(doubtRouter);
 
 
 const DB = "mongodb+srv://rivaan:test123@cluster0.lcq2qaw.mongodb.net/?retryWrites=true&w=majority";

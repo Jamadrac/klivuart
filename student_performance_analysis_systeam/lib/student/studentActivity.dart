@@ -51,7 +51,7 @@ class studentActivity extends StatelessWidget {
               child: Text('Send DOUBTS'),
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context)=> senDoubts())
+                  MaterialPageRoute(builder: (context)=> SenDoubts())
                 );
                
               },
