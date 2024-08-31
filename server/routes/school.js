@@ -4,6 +4,7 @@ const School = require("../models/school");
 const Attendance = require('../models/attendance.js');
 const Timetable = require("../models/timetable");
 const { hash } = require("bcryptjs");
+const add_questionPapers = require('../models/add_questionPapers.js')
 
 const schoolRouter = express.Router();
 
@@ -212,6 +213,191 @@ class Faculty {
       res.status(500).json({ error: e.message });
     }
   }
+// // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+ // 1. Add questionPapers
+  static async add_questionPapers(req, res) {
+    try {
+      const { subject, description, image } = req.body;
+      console.log(`Request Body: ${JSON.stringify(req.body)}`);
+
+      // Create a new timetable entry
+      const add_questionPapersEntry = new add_questionPapers({
+        subject,
+        description,
+        image,
+      });
+
+      // Save the new timetable entry to the database
+      await add_questionPapersEntry.save();
+
+      // Respond with a success message
+      res.json({ msg: "Timetable entry added successfully." });
+    } catch (e) {
+      console.error(`Error: ${e.message}`);
+      res.status(500).json({ error: e.message });
+    }
+  }
+
+//   // 2. Add Student Results
+//   static async addStudentResults(req, res) {
+//     try {
+//       const { examResult } = req.body;
+
+//       let school = await School.findOne();
+//       if (!school) {
+//         school = new School({ name: "Default School" });
+//       }
+//       school.examResult = examResult;
+//       await school.save();
+
+//       res.json(school);
+//     } catch (e) {
+//       res.status(500).json({ error: e.message });
+//     }
+//   }
+
+//   // 3. Delete Timetable
+//   static async deleteTimetable(req, res) {
+//     try {
+//       const { id } = req.params;
+//       const result = await Timetable.findByIdAndDelete(id);
+
+//       if (!result) {
+//         return res.status(404).json({ msg: "Timetable entry not found" });
+//       }
+
+//       res.json({ msg: "Timetable entry deleted successfully" });
+//     } catch (e) {
+//       res.status(500).json({ error: e.message });
+//     }
+//   }
+// // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  // 1. Add add_questionPapers
+//  static async addadd_questionPapers(req, res) {
+//   try {
+//     const { subject, description, image } = req.body;
+//     console.log(`Request Body: ${JSON.stringify(req.body)}`);
+
+//     // Create a new add_questionPapers entry
+//     const add_questionPapersEntry = new add_questionPapers({
+//       subject,
+//       description,
+//       image,
+//     });
+
+//     // Save the new add_questionPapers entry to the database
+//     await add_questionPapersEntry.save();
+
+//     // Respond with a success message
+//     res.json({ msg: "add_questionPapers entry added successfully." });
+//   } catch (e) {
+//     console.error(`Error: ${e.message}`);
+//     res.status(500).json({ error: e.message });
+//   }
+// }
+
+// // 2. Add Student Results
+// static async addStudentResults(req, res) {
+//   try {
+//     const { examResult } = req.body;
+
+//     let school = await School.findOne();
+//     if (!school) {
+//       school = new School({ name: "Default School" });
+//     }
+//     school.examResult = examResult;
+//     await school.save();
+
+//     res.json(school);
+//   } catch (e) {
+//     res.status(500).json({ error: e.message });
+//   }
+// }
+
+// // 3. Delete add_questionPapers
+// static async deleteadd_questionPapers(req, res) {
+//   try {
+//     const { id } = req.params;
+//     const result = await add_questionPapers.findByIdAndDelete(id);
+
+//     if (!result) {
+//       return res.status(404).json({ msg: "add_questionPapers entry not found" });
+//     }
+
+//     res.json({ msg: "add_questionPapers entry deleted successfully" });
+//   } catch (e) {
+//     res.status(500).json({ error: e.message });
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+
+
+
 
   // 4. Add Attendance
   static async addAttendance(req, res) {
@@ -298,5 +484,9 @@ schoolRouter.post("/api/attendance", Faculty.addAttendance);
 
 schoolRouter.get("/api/viewAcademicMarks/:classId", Student.viewAcademicMarks);
 schoolRouter.get("/api/viewTimetable", Student.viewTimetable);
+
+
+// schoolRouter.get("/api/viewTimetable", Student.addadd_questionPapers);
+schoolRouter.post("/api/add_questionPapers", Faculty.add_questionPapers);
 
 module.exports = schoolRouter;
