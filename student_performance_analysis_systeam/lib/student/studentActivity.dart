@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_performance_analysis_systeam/student/NotificationsScreen.dart';
 import 'package:student_performance_analysis_systeam/student/sendDoubts.dart';
 import 'package:student_performance_analysis_systeam/student/viewQuestionpaper.dart';
 import 'package:student_performance_analysis_systeam/student/viewtimtable.dart';
@@ -40,7 +41,7 @@ class studentActivity extends StatelessWidget {
               child: Text('View NOTIFICATIONS'),
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder:(context)=> viewQuestionpaper()));
+                  MaterialPageRoute(builder:(context)=> NotificationsScreen()));
                
               },
             ),
