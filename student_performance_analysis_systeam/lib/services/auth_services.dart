@@ -11,7 +11,7 @@ import '../providers/user_provider.dart';
 
 class AuthService {
   //xxxxxxxxxxxxxxxxxxxxxxxx signUp  xxxxxxxxxxxxxxxxxxxxxxxxxxx
-  void signUpUser({
+  Future<void> signUpUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -44,7 +44,7 @@ class AuthService {
   }
 
   //xxxxxxxxxxxxxxxxxxxxxxxx login xxxxxxxxxxxxxxxxxxxxxxxxxxx
-  void signInUser({
+  Future<void> signInUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -81,7 +81,6 @@ class AuthService {
   }
 
   //xxxxxxxxxxxxxxxxxxxxxxxx logout  xxxxxxxxxxxxxxxxxxxxxxxxxxx
-
   void signOut(BuildContext context) async {
     final navigator = Navigator.of(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -93,8 +92,7 @@ class AuthService {
   }
 
   //xxxxxxxxxxxxxxxxxxxxxxxx get user data xxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-  void getUserData(BuildContext context) async {
+  Future<void> getUserData(BuildContext context) async {
     var userProvider = Provider.of<UserProvider>(context, listen: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('x-auth-token');
