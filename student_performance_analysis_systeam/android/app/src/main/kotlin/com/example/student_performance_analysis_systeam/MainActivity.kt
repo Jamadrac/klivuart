@@ -1,4 +1,4 @@
-package com.example.student_performance_analysis_systeam
+package com.example.student_analysis
 
 import io.flutter.embedding.android.FlutterActivity
 

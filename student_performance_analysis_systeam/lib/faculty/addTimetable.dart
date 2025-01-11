@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:student_performance_analysis_systeam/utils/constants.dart';
+import 'package:student_analysis/utils/constants.dart';
 
 class AddTimeTableActivity extends StatefulWidget {
   const AddTimeTableActivity({super.key});

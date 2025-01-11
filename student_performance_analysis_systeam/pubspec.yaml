@@ -1,4 +1,4 @@
-name: student_performance_analysis_systeam
+name: student_analysis
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -40,7 +40,6 @@ dependencies:
   # fluttertoast: ^8.0.9
   shared_preferences: ^2.0.15
   dio: ^5.5.0+1
-
 
 dev_dependencies:
   flutter_test:

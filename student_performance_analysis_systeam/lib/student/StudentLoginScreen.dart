@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:student_performance_analysis_systeam/student/studentActivity.dart';
+import 'package:student_analysis/student/studentActivity.dart';
 import '../custom_textfield.dart';
 import '../services/auth_services.dart';
 

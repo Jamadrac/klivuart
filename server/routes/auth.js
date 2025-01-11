@@ -4,33 +4,30 @@ const User = require("../models/user");
 const authRouter = express.Router();
 const jwt = require("jsonwebtoken");
 
-
-
-
 authRouter.post("/api/bulkRegister", async (req, res) => {
   const users = req.body; // Array of user objects
   try {
     // Hash passwords and prepare user objects for insertion
-    const hashedUsers = await Promise.all(users.map(async (user) => {
-      const hashedPassword = await bcryptjs.hash(user.password, 8);
-      return {
-        ...user,
-        password: hashedPassword, // Hash the password
-      };
-    }));
+    const hashedUsers = await Promise.all(
+      users.map(async (user) => {
+        const hashedPassword = await bcryptjs.hash(user.password, 8);
+        return {
+          ...user,
+          password: hashedPassword, // Hash the password
+        };
+      })
+    );
 
     // Insert all users into the database
     const result = await User.insertMany(hashedUsers);
 
-    res.status(201).json({ message: 'Users registered successfully!', result });
+    res.status(201).json({ message: "Users registered successfully!", result });
   } catch (error) {
-    res.status(400).json({ message: 'Failed to register users', error });
+    res.status(400).json({ message: "Failed to register users", error });
   }
 });
 
-
-
-authRouter.post('/register/admin', async (req, res) => {
+authRouter.post("/register/admin", async (req, res) => {
   const { name, mobile, email, department, username, password } = req.body;
   try {
     const newUser = new User({
@@ -40,20 +37,46 @@ authRouter.post('/register/admin', async (req, res) => {
       department,
       username,
       password,
-      userType: 'admin',
+      userType: "admin",
     });
     await newUser.save();
-    res.status(200).json({ message: 'User registered successfully!' });
+    res.status(200).json({ message: "User registered successfully!" });
   } catch (error) {
-    res.status(400).json({ message: 'Failed to register user', error });
+    res.status(400).json({ message: "Failed to register user", error });
+  }
+});
+// Get all users
+authRouter.get("/api/users", async (req, res) => {
+  try {
+    const users = await User.find(); // Fetch all users from the database
+    res.json(users); // Return users as a JSON response
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch users", error: error.message });
+  }
+});
+
+// Get a user by ID
+authRouter.get("/api/users/:id", async (req, res) => {
+  const { id } = req.params; // Extract ID from the URL parameter
+  try {
+    const user = await User.findById(id); // Find user by ID
+    if (!user) {
+      return res.status(404).json({ message: "User not found" }); // Handle case where user does not exist
+    }
+    res.json(user); // Return the user data
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch user", error: error.message });
   }
 });
 
 authRouter.get("/api/admins", async (req, res) => {
   try {
+    const admins = await User.find({ userType: "admin" });
 
-    const admins = await User.find({ userType: 'admin' });
-    
     // Respond with the list of admin users
     res.json(admins);
   } catch (error) {
@@ -142,7 +165,6 @@ authRouter.get("/", async (req, res) => {
   }
 });
 
-
 // Update User Details
 authRouter.put("/api/updateUser/:id", async (req, res) => {
   const {
@@ -162,12 +184,10 @@ authRouter.put("/api/updateUser/:id", async (req, res) => {
       _id: { $ne: req.params.id },
     });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          msg: "Another user with the same email already exists!",
-        });
+      return res.status(400).json({
+        success: false,
+        msg: "Another user with the same email already exists!",
+      });
     }
 
     // Find user by id and update their details
@@ -183,7 +203,7 @@ authRouter.put("/api/updateUser/:id", async (req, res) => {
         department,
         sex,
       },
-      { new: true, runValidators: true } 
+      { new: true, runValidators: true }
     );
 
     if (!user) {

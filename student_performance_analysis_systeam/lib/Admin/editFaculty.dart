@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:student_performance_analysis_systeam/utils/constants.dart';
+import 'package:student_analysis/utils/constants.dart';
 
 class EditFacultyActivity extends StatefulWidget {
   final String id;
@@ -35,7 +35,8 @@ class _EditFacultyActivityState extends State<EditFacultyActivity> {
 
   Future<void> fetchFacultyDetails() async {
     try {
-      final response = await http.get(Uri.parse('${Constants.uri}/api/updateUser/${widget.id}'));
+      final response = await http
+          .get(Uri.parse('${Constants.uri}/api/updateUser/${widget.id}'));
 
       if (response.statusCode == 200) {
         final facultyDetails = jsonDecode(response.body);
@@ -154,7 +155,8 @@ class _EditFacultyActivityState extends State<EditFacultyActivity> {
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
                       title: Text('Confirm Deletion'),
-                      content: Text('Are you sure you want to delete this faculty?'),
+                      content:
+                          Text('Are you sure you want to delete this faculty?'),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:student_performance_analysis_systeam/Admin/addFaculty.dart'; // For decoding JSON response
-import 'package:student_performance_analysis_systeam/Admin/editFaculty.dart';
-import 'package:student_performance_analysis_systeam/utils/constants.dart'; // Import the EditFacultyActivity
+import 'package:student_analysis/Admin/addFaculty.dart'; // For decoding JSON response
+import 'package:student_analysis/Admin/editFaculty.dart';
+import 'package:student_analysis/utils/constants.dart'; // Import the EditFacultyActivity
 
 class AdminActivity extends StatelessWidget {
   @override
@@ -29,7 +29,6 @@ class AdminActivity extends StatelessWidget {
             ),
             child: Text('ADD FACULTY'),
             onPressed: () {
-             
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => AddFacultyActivity()),
               );

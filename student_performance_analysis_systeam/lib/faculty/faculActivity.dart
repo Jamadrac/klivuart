@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:student_performance_analysis_systeam/faculty/Add_Questionpaper.dart';
-import 'package:student_performance_analysis_systeam/faculty/addTimetable.dart';
+import 'package:student_analysis/faculty/Add_Questionpaper.dart';
+import 'package:student_analysis/faculty/addTimetable.dart';
 import './attendanceRecord.dart';
 
 class FacultyActivity extends StatelessWidget {
@@ -21,8 +21,8 @@ class FacultyActivity extends StatelessWidget {
       body: Center(
         // Wrap the Column in a Center widget
         child: Column(
-          mainAxisAlignment: MainAxisAlignment
-              .center, // This will space the children evenly
+          mainAxisAlignment:
+              MainAxisAlignment.center, // This will space the children evenly
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -74,12 +74,11 @@ class FacultyActivity extends StatelessWidget {
               ),
               child: const Text('ADD QUESTION PAPERS'),
               onPressed: () {
-                 Navigator.of(context).push(
+                Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => Add_Questionpaper()),
                 );
-                  },
+              },
             ),
-
           ],
         ),
       ),

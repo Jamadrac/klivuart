@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:student_performance_analysis_systeam/utils/constants.dart';
+import 'package:student_analysis/utils/constants.dart';
 
 void main() => runApp(AttendanceRecord());
 

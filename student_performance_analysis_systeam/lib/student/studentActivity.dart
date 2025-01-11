@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:student_performance_analysis_systeam/student/NotificationsScreen.dart';
-import 'package:student_performance_analysis_systeam/student/sendDoubts.dart';
-import 'package:student_performance_analysis_systeam/student/viewQuestionpaper.dart';
-import 'package:student_performance_analysis_systeam/student/viewtimtable.dart';
+import 'package:student_analysis/student/NotificationsScreen.dart';
+import 'package:student_analysis/student/sendDoubts.dart';
+import 'package:student_analysis/student/viewQuestionpaper.dart';
+import 'package:student_analysis/student/viewtimtable.dart';
 
 class studentActivity extends StatelessWidget {
   @override
@@ -14,7 +14,7 @@ class studentActivity extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.more_vert),
             onPressed: () {
-            //  avigate to another screen
+              //  avigate to another screen
             },
           ),
         ],
@@ -30,7 +30,8 @@ class studentActivity extends StatelessWidget {
               child: Text('View TIME TABLE'),
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ViewTimetableScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => ViewTimetableScreen()),
                 );
               },
             ),
@@ -40,9 +41,8 @@ class studentActivity extends StatelessWidget {
               ),
               child: Text('View NOTIFICATIONS'),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder:(context)=> NotificationsScreen()));
-               
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => NotificationsScreen()));
               },
             ),
             ElevatedButton(
@@ -51,10 +51,8 @@ class studentActivity extends StatelessWidget {
               ),
               child: Text('Send DOUBTS'),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context)=> SenDoubts())
-                );
-               
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => SenDoubts()));
               },
             ),
           ],
