@@ -35,13 +35,13 @@ class _SenDoubtsState extends State<SenDoubts> {
 
     try {
       http.Response res = await http.post(
-        Uri.parse('${Constants.uri}/api/sendDoubt'),
+        Uri.parse('${Constants.uri}/api/doubts'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': user.token,
         },
         body: jsonEncode({
-          'name': user.name,
+          'email': user.email, // Changed from 'name' to 'email'
           'subject': _subjectController.text,
           'statement': _statementController.text,
         }),
@@ -63,16 +63,14 @@ class _SenDoubtsState extends State<SenDoubts> {
     final user = userProvider.user;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Send Doubts'),
-      ),
+      appBar: AppBar(title: const Text('Send Doubts')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Student: ${user.name}',
+              'Student: ${user.email}', // Changed from user.name to user.email
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),

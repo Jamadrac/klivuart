@@ -81,11 +81,12 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
                     Size(MediaQuery.of(context).size.width / 2.5, 50),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => studentActivity()),
-                  );
-                },
+                onPressed: loginUser,
+                // onPressed: () {
+                //   Navigator.of(context).push(
+                //     MaterialPageRoute(builder: (context) => studentActivity()),
+                //   );
+                // },
                 child:
                     isLoading
                         ? const CircularProgressIndicator(
