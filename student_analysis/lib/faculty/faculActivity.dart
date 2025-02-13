@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:student_analysis/faculty/Add_Questionpaper.dart';
 import 'package:student_analysis/faculty/addTimetable.dart';
+import 'package:student_analysis/faculty/viewAlldoubts.dart';
 import 'attendanceRecord.dart';
 
 class FacultyActivity extends StatelessWidget {
@@ -25,23 +26,20 @@ class FacultyActivity extends StatelessWidget {
               MainAxisAlignment.center, // This will space the children evenly
           children: [
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
               child: const Text('ADD TIME TABLE'),
               onPressed: () {
                 // Navigate to another screen
                 // Navigate to another screen
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => const AddTimeTableActivity()),
+                    builder: (context) => const AddTimeTableActivity(),
+                  ),
                 );
               },
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
               child: const Text('RECORD ATTENDANCE'),
               onPressed: () {
                 // Navigate to another Attendance
@@ -51,27 +49,24 @@ class FacultyActivity extends StatelessWidget {
               },
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
               child: const Text('SEND NOTIFICATIONS'),
               onPressed: () {
                 // Navigate to another screen
               },
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
               child: const Text('VIEW DOUBTS'),
               onPressed: () {
                 // Navigate to another screen
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => DoubtsListScreen()),
+                );
               },
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey,
-              ),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
               child: const Text('ADD QUESTION PAPERS'),
               onPressed: () {
                 Navigator.of(context).push(

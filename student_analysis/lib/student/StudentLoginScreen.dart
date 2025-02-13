@@ -71,7 +71,7 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
-                onPressed: isLoading ? null : loginUser,
+                // onPressed: isLoading ? null : loginUser,
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blue),
                   textStyle: MaterialStateProperty.all(
@@ -81,16 +81,22 @@ class _StudentLoginScreenState extends State<StudentLoginScreen> {
                     Size(MediaQuery.of(context).size.width / 2.5, 50),
                   ),
                 ),
-                child: isLoading
-                    ? const CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          Colors.white,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => studentActivity()),
+                  );
+                },
+                child:
+                    isLoading
+                        ? const CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
+                        )
+                        : const Text(
+                          "Login",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                      )
-                    : const Text(
-                        "Login",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
               ),
             ],
           ),

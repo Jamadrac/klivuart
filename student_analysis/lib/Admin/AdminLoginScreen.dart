@@ -31,10 +31,7 @@ class _StudentLoginScreenState extends State<AdminLoginScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            " Admin Login",
-            style: TextStyle(fontSize: 30),
-          ),
+          const Text(" Admin Login", style: TextStyle(fontSize: 30)),
           SizedBox(height: MediaQuery.of(context).size.height * 0.08),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -53,13 +50,13 @@ class _StudentLoginScreenState extends State<AdminLoginScreen> {
           ),
           const SizedBox(height: 40),
           ElevatedButton(
-            // onPressed: loginUser,
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => AdminActivity()),
-              );
-            },
+            onPressed: loginUser,
 
+            // onPressed: () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute(builder: (context) => AdminActivity()),
+            //   );
+            // },
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(Colors.blue),
               textStyle: WidgetStateProperty.all(

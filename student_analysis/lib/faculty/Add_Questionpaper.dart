@@ -107,14 +107,14 @@ class _Add_QuestionpaperState extends State<Add_Questionpaper> {
               ),
               _image != null
                   ? Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Image.file(
-                        _image!,
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.cover, // Ensure the image fits correctly
-                      ),
-                    )
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Image.file(
+                      _image!,
+                      width: 90,
+                      height: 90,
+                      fit: BoxFit.cover, // Ensure the image fits correctly
+                    ),
+                  )
                   : Container(),
               const SizedBox(height: 20),
               ElevatedButton(
